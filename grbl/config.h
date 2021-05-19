@@ -45,7 +45,7 @@
 
 // Axis array index values. Must start with 0 and be continuous.
 #define N_AXIS 5            // Number of axes (3 to 6)
-#define N_AXIS_LINEAR 3     // Number of linears axis
+#define N_AXIS_LINEAR 5     // Number of linears axis
 
 #define AXIS_1 0        // Axis indexing value. Must start with 0 and be continuous.
 #define AXIS_1_NAME 'X' // Axis names must be in X, Y, Z, A, B, C, U, V, W, D, E & H.
@@ -59,15 +59,15 @@
 #endif
 #if N_AXIS > 3
   #define AXIS_4 3
-  #define AXIS_4_NAME 'A' // Letter of axis number 4
+  #define AXIS_4_NAME 'X' // Letter of axis number 4
 #endif
 #if N_AXIS > 4
   #define AXIS_5 4
-  #define AXIS_5_NAME 'B' // Letter of axis number 5
+  #define AXIS_5_NAME 'Y' // Letter of axis number 5
 #endif
 #if N_AXIS > 5
   #define AXIS_6 5
-  #define AXIS_6_NAME 'C' // Letter of axis number 6
+  #define AXIS_6_NAME 'A' // Letter of axis number 6
 #endif
 #if N_AXIS > 6
   #error "N_AXIS must be <= 6. N_AXIS > 6 is not implemented."
@@ -168,21 +168,21 @@
 // will not be affected by pin sharing.
 // NOTE: Defaults are set for a traditional 3-axis CNC machine. Z-axis first to clear, followed by X & Y.
 #if N_AXIS == 4 // 4 axis : homing
-  #define HOMING_CYCLE_0 (1<<AXIS_3) // Home Z axis first to clear workspace.
+    #define HOMING_CYCLE_0 (1<<AXIS_3) // Home Z axis first to clear workspace.
   #define HOMING_CYCLE_1 ((1<<AXIS_1)|(1<<AXIS_2))     // OPTIONAL: uncomment to move X,Y at the same time.
   //#define HOMING_CYCLE_1 (1<<AXIS_1) // Home X axis  // OPTIONAL: uncomment to move only X at a time.
   //#define HOMING_CYCLE_2 (1<<AXIS_2) // Home Y axis  // OPTIONAL: uncomment to move only Y at a time.
   //#define HOMING_CYCLE_3 (1<<AXIS_4) // Home 4th axis (A)
 #elif N_AXIS == 5 // 5 axis : homing
-  #define HOMING_CYCLE_0 (1<<AXIS_3) // Home Z axis first to clear workspace.
-  #define HOMING_CYCLE_1 ((1<<AXIS_1)|(1<<AXIS_2))     // OPTIONAL: uncomment to move X,Y at the same time.
-  //#define HOMING_CYCLE_1 (1<<AXIS_1) // Home X axis  // OPTIONAL: uncomment to move only X at a time.
-  //#define HOMING_CYCLE_2 (1<<AXIS_2) // Home Y axis  // OPTIONAL: uncomment to move only Y at a time.
-  //#define HOMING_CYCLE_3 (1<<AXIS_4) // Home 4th axis (A)
-  //#define HOMING_CYCLE_4 (1<<AXIS_5) // Home 5th axis (B)
+    #define HOMING_CYCLE_0 ((1<<AXIS_1)|(1<<AXIS_4))   //HomeX
+    #define HOMING_CYCLE_1 ((1<<AXIS_2)|(1<<AXIS_5))
+    //#define HOMING_CYCLE_1 (1<<AXIS_1) // Home X axis  // OPTIONAL: uncomment to move only X at a time.
+    //#define HOMING_CYCLE_2 (1<<AXIS_2) // Home Y axis  // OPTIONAL: uncomment to move only Y at a time.
+    //#define HOMING_CYCLE_3 (1<<AXIS_4) // Home 4th axis (A)
+    //#define HOMING_CYCLE_4 (1<<AXIS_5) // Home 5th axis (B)
 #elif N_AXIS == 6 // 6 axis : homing
-  #define HOMING_CYCLE_0 (1<<AXIS_3) // Home Z axis first to clear workspace.
-  #define HOMING_CYCLE_1 ((1<<AXIS_1)|(1<<AXIS_2))     // OPTIONAL: uncomment to move X,Y at the same time.
+    #define HOMING_CYCLE_0 ((1<<AXIS_1)|(1<<AXIS_4))   //HomeX
+    #define HOMING_CYCLE_1 ((1<<AXIS_2)|(1<<AXIS_5))
   //#define HOMING_CYCLE_1 (1<<AXIS_1) // Home X axis  // OPTIONAL: uncomment to move only X at a time.
   //#define HOMING_CYCLE_2 (1<<AXIS_2) // Home Y axis  // OPTIONAL: uncomment to move only Y at a time.
   //#define HOMING_CYCLE_3 (1<<AXIS_4) // Home 4th axis (A)
@@ -711,6 +711,13 @@
    the compiler will ignore the contents of defaults.h and cpu_map.h and use the definitions
    below.
 */
+
+#define DEFAULT_AXIS_1_ENDSTOP_ADJ 0
+#define DEFAULT_AXIS_2_ENDSTOP_ADJ 0
+#define DEFAULT_AXIS_3_ENDSTOP_ADJ 0
+#define DEFAULT_AXIS_4_ENDSTOP_ADJ 0
+#define DEFAULT_AXIS_5_ENDSTOP_ADJ 0
+#define DEFAULT_AXIS_6_ENDSTOP_ADJ 0
 
 // Paste CPU_MAP definitions here.
 

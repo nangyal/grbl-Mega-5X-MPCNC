@@ -5,5 +5,5 @@
 *.DS_Store
 *.d
 .grbl*
-
+.vscode
 README.md

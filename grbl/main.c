@@ -339,7 +339,7 @@ int main(void)
       axis_name[5] = 'W';
     }
   #endif
-  
+
   if (AXIS_1_NAME == 'D') {
     axis_D_mask |= (1<<AXIS_1);
     axis_name[0] = 'D';

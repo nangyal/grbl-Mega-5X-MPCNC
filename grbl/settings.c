@@ -59,23 +59,29 @@ const __flash settings_t defaults = {
     .max_travel[AXIS_1] = (-DEFAULT_AXIS1_MAX_TRAVEL),
     .max_travel[AXIS_2] = (-DEFAULT_AXIS2_MAX_TRAVEL),
     .max_travel[AXIS_3] = (-DEFAULT_AXIS3_MAX_TRAVEL),
+    .endstop_adj[AXIS_1] = DEFAULT_AXIS_1_ENDSTOP_ADJ,
+    .endstop_adj[AXIS_2] = DEFAULT_AXIS_2_ENDSTOP_ADJ,
+    .endstop_adj[AXIS_3] = DEFAULT_AXIS_3_ENDSTOP_ADJ,
 #if N_AXIS > 3
     .steps_per_mm[AXIS_4] = DEFAULT_AXIS4_STEPS_PER_UNIT,
     .max_rate[AXIS_4] = DEFAULT_AXIS4_MAX_RATE,
     .acceleration[AXIS_4] = DEFAULT_AXIS4_ACCELERATION,
     .max_travel[AXIS_4] = (-DEFAULT_AXIS4_MAX_TRAVEL),
+    .endstop_adj[AXIS_4] = DEFAULT_AXIS_4_ENDSTOP_ADJ,
 #endif
 #if N_AXIS > 4
     .steps_per_mm[AXIS_5] = DEFAULT_AXIS5_STEPS_PER_UNIT,
     .max_rate[AXIS_5] = DEFAULT_AXIS5_MAX_RATE,
     .acceleration[AXIS_5] = DEFAULT_AXIS5_ACCELERATION,
     .max_travel[AXIS_5] = (-DEFAULT_AXIS5_MAX_TRAVEL),
+    .endstop_adj[AXIS_5] = DEFAULT_AXIS_5_ENDSTOP_ADJ,
 #endif
 #if N_AXIS > 5
     .steps_per_mm[AXIS_6] = DEFAULT_AXIS6_STEPS_PER_UNIT,
     .max_rate[AXIS_6] = DEFAULT_AXIS6_MAX_RATE,
     .acceleration[AXIS_6] = DEFAULT_AXIS6_ACCELERATION,
     .max_travel[AXIS_6] = (-DEFAULT_AXIS6_MAX_TRAVEL),
+    .endstop_adj[AXIS_6] = DEFAULT_AXIS_6_ENDSTOP_ADJ
 #endif
 };
 
@@ -234,6 +240,7 @@ uint8_t settings_store_global_setting(uint8_t parameter, float value) {
             break;
           case 2: settings.acceleration[parameter] = value*60*60; break; // Convert to mm/min^2 for grbl internal use.
           case 3: settings.max_travel[parameter] = -value; break;  // Store as negative for grbl internal use.
+          case 4: settings.endstop_adj[parameter] = value; break;
         }
         break; // Exit while-loop after setting has been configured and proceed to the EEPROM write call.
       } else {
@@ -331,70 +338,71 @@ void settings_init() {
 // Returns step pin mask according to Grbl internal axis indexing.
 uint8_t get_step_pin_mask(uint8_t axis_idx)
 {
-  if ( axis_idx == AXIS_1 ) { return((1<<STEP_BIT(AXIS_1))); }
-  if ( axis_idx == AXIS_2 ) { return((1<<STEP_BIT(AXIS_2))); }
-  #if N_AXIS > 3
-    if ( axis_idx == AXIS_4 ) { return((1<<STEP_BIT(AXIS_4))); }
-  #endif
-  #if N_AXIS > 4
-    if ( axis_idx == AXIS_5 ) { return((1<<STEP_BIT(AXIS_5))); }
-  #endif
-  #if N_AXIS > 5
-    if ( axis_idx == AXIS_6 ) { return((1<<STEP_BIT(AXIS_6))); }
-  #endif
-  return((1<<STEP_BIT(AXIS_3)));
+    if ( axis_idx == AXIS_1 ) { return((1<<STEP_BIT(AXIS_1))); }
+    if ( axis_idx == AXIS_2 ) { return((1<<STEP_BIT(AXIS_2))); }
+    #if N_AXIS > 3
+      if ( axis_idx == AXIS_4 ) { return((1<<STEP_BIT(AXIS_4))); }
+    #endif
+    #if N_AXIS > 4
+      if ( axis_idx == AXIS_5 ) { return((1<<STEP_BIT(AXIS_5))); }
+    #endif
+    #if N_AXIS > 5
+      if ( axis_idx == AXIS_6 ) { return((1<<STEP_BIT(AXIS_6))); }
+    #endif
+    return((1<<STEP_BIT(AXIS_3)));
 }
 
 
 // Returns direction pin mask according to Grbl internal axis indexing.
 uint8_t get_direction_pin_mask(uint8_t axis_idx)
 {
-  if ( axis_idx == AXIS_1 ) { return((1<<DIRECTION_BIT(AXIS_1))); }
-  if ( axis_idx == AXIS_2 ) { return((1<<DIRECTION_BIT(AXIS_2))); }
-  #if N_AXIS > 3
-    if ( axis_idx == AXIS_4 ) { return((1<<DIRECTION_BIT(AXIS_4))); }
-  #endif
-  #if N_AXIS > 4
-    if ( axis_idx == AXIS_5 ) { return((1<<DIRECTION_BIT(AXIS_5))); }
-  #endif
-  #if N_AXIS > 5
-    if ( axis_idx == AXIS_6 ) { return((1<<DIRECTION_BIT(AXIS_6))); }
-  #endif
-  return((1<<DIRECTION_BIT(AXIS_3)));
+    if ( axis_idx == AXIS_1 ) { return((1<<DIRECTION_BIT(AXIS_1))); }
+    if ( axis_idx == AXIS_2 ) { return((1<<DIRECTION_BIT(AXIS_2))); }
+    #if N_AXIS > 3
+      if ( axis_idx == AXIS_4 ) { return((1<<DIRECTION_BIT(AXIS_4))); }
+    #endif
+    #if N_AXIS > 4
+      if ( axis_idx == AXIS_5 ) { return((1<<DIRECTION_BIT(AXIS_5))); }
+    #endif
+    #if N_AXIS > 5
+      if ( axis_idx == AXIS_6 ) { return((1<<DIRECTION_BIT(AXIS_6))); }
+    #endif
+    return((1<<DIRECTION_BIT(AXIS_3)));
 }
 
 
 // Returns limit pin mask according to Grbl internal axis indexing.
 
+
 uint8_t get_min_limit_pin_mask(uint8_t axis_idx)
-{
+{  
   if ( axis_idx == AXIS_1 ) { return((1<<MIN_LIMIT_BIT(AXIS_1))); }
-  if ( axis_idx == AXIS_2 ) { return((1<<MIN_LIMIT_BIT(AXIS_2))); }
-  #if N_AXIS > 3
-    if ( axis_idx == AXIS_4 ) { return((1<<MIN_LIMIT_BIT(AXIS_4))); }
-  #endif
-  #if N_AXIS > 4
-    if ( axis_idx == AXIS_5 ) { return((1<<MIN_LIMIT_BIT(AXIS_5))); }
-  #endif
-  #if N_AXIS > 5
-    if ( axis_idx == AXIS_6 ) { return((1<<MIN_LIMIT_BIT(AXIS_6))); }
-  #endif
-  return((1<<MIN_LIMIT_BIT(AXIS_3)));
+    if ( axis_idx == AXIS_2 ) { return((1<<MIN_LIMIT_BIT(AXIS_2))); }
+    #if N_AXIS > 3
+      if ( axis_idx == AXIS_4 ) { return((1<<MIN_LIMIT_BIT(AXIS_4))); }
+    #endif
+    #if N_AXIS > 4
+      if ( axis_idx == AXIS_5 ) { return((1<<MIN_LIMIT_BIT(AXIS_5))); }
+    #endif
+    #if N_AXIS > 5
+      if ( axis_idx == AXIS_6 ) { return((1<<MIN_LIMIT_BIT(AXIS_6))); }
+    #endif
+    return((1<<MIN_LIMIT_BIT(AXIS_3)));
 }
 
 uint8_t get_max_limit_pin_mask(uint8_t axis_idx)
 {
-  if ( axis_idx == AXIS_1 ) { return((1<<MAX_LIMIT_BIT(AXIS_1))); }
-  if ( axis_idx == AXIS_2 ) { return((1<<MAX_LIMIT_BIT(AXIS_2))); }
-  #if N_AXIS > 3
-    if ( axis_idx == AXIS_4 ) { return((1<<MAX_LIMIT_BIT(AXIS_4))); }
-  #endif
-  #if N_AXIS > 4
-    if ( axis_idx == AXIS_5 ) { return((1<<MAX_LIMIT_BIT(AXIS_5))); }
-  #endif
-  #if N_AXIS > 5
-    if ( axis_idx == AXIS_6 ) { return((1<<MAX_LIMIT_BIT(AXIS_6))); }
-  #endif
-  return((1<<MAX_LIMIT_BIT(AXIS_3)));
+     if ( axis_idx == AXIS_1 ) { return((1<<MAX_LIMIT_BIT(AXIS_1))); }
+     if ( axis_idx == AXIS_2 ) { return((1<<MAX_LIMIT_BIT(AXIS_2))); }
+    #if N_AXIS > 3
+      if ( axis_idx == AXIS_4 ) { return((1<<MAX_LIMIT_BIT(AXIS_4))); }
+    #endif
+    #if N_AXIS > 4
+      if ( axis_idx == AXIS_5 ) { return((1<<MAX_LIMIT_BIT(AXIS_5))); }
+    #endif
+    #if N_AXIS > 5
+      if ( axis_idx == AXIS_6 ) { return((1<<MAX_LIMIT_BIT(AXIS_6))); }
+    #endif
+     return((1<<MAX_LIMIT_BIT(AXIS_3)));
 }
 

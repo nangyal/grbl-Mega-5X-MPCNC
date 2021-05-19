@@ -287,6 +287,7 @@ void report_grbl_settings() {
         case 1: report_util_float_setting(val+idx,settings.max_rate[idx],N_DECIMAL_SETTINGVALUE); break;
         case 2: report_util_float_setting(val+idx,settings.acceleration[idx]/(60*60),N_DECIMAL_SETTINGVALUE); break;
         case 3: report_util_float_setting(val+idx,-settings.max_travel[idx],N_DECIMAL_SETTINGVALUE); break;
+        case 4: report_util_float_setting(val+idx,settings.endstop_adj[idx],N_DECIMAL_SETTINGVALUE); break; 
       }
     }
     val += AXIS_SETTINGS_INCREMENT;
@@ -764,7 +765,7 @@ void report_realtime_status()
   void report_realtime_debug(char *line, uint8_t val)
   {
     printPgmString(PSTR("{debug("));
-    printString(line);
+	printString(line);
     printPgmString(PSTR("|val:"));
     print_uint8_base10(val);
     printPgmString(PSTR("|Amask:"));

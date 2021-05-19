@@ -141,10 +141,10 @@
   #define MIN_LIMIT_PORT_1 J
   #define MIN_LIMIT_PORT_2 D
   #if N_AXIS > 3
-    #define MIN_LIMIT_PORT_3 L
+    #define MIN_LIMIT_PORT_3 E
   #endif
   #if N_AXIS > 4
-    #define MIN_LIMIT_PORT_4 L
+    #define MIN_LIMIT_PORT_4 J
   #endif
   #if N_AXIS > 5
     #define MIN_LIMIT_PORT_5 F // (Ramps Aux-1 D57)
@@ -153,10 +153,10 @@
   #define MIN_LIMIT_BIT_1 1 // Y Limit Min - Pin D14
   #define MIN_LIMIT_BIT_2 3 // Z Limit Min - Pin D18
   #if N_AXIS > 3
-    #define MIN_LIMIT_BIT_3 7 // Axis number 4 : RAMPS AUX2 pin D42
+    #define MIN_LIMIT_BIT_3 4 // X Limit Min - Pin D2
   #endif
   #if N_AXIS > 4
-    #define MIN_LIMIT_BIT_4 5 // Axis number 5 : RAMPS AUX2 pin D44
+    #define MIN_LIMIT_BIT_4 0 // Y Limit Min - Pin D15
   #endif
   #if N_AXIS > 5
     #define MIN_LIMIT_BIT_5 3 // Axis number 6 : RAMPS AUX2 pin D57
@@ -167,9 +167,9 @@
   #define MIN_LIMIT_PORT(i) _PORT(MIN_LIMIT_PORT_##i)
   #define MIN_LIMIT_PIN(i) _PIN(MIN_LIMIT_PORT_##i)
 
-  #define MAX_LIMIT_PORT_0 E
-  #define MAX_LIMIT_PORT_1 J
-  #define MAX_LIMIT_PORT_2 D
+  #define MAX_LIMIT_PORT_0 D
+  #define MAX_LIMIT_PORT_1 D
+  #define MAX_LIMIT_PORT_2 F
   #if N_AXIS > 3
     #define MAX_LIMIT_PORT_3 G
   #endif
@@ -179,9 +179,9 @@
   #if N_AXIS > 5
     #define MAX_LIMIT_PORT_5 F // (Ramps Aux-3 D58)
   #endif
-  #define MAX_LIMIT_BIT_0 4 // X Limit Max - Pin D2
-  #define MAX_LIMIT_BIT_1 0 // Y Limit Max - Pin D15
-  #define MAX_LIMIT_BIT_2 2 // Z Limit Max - Pin D19
+  #define MAX_LIMIT_BIT_0 2 // X Limit Max - Pin D19
+  #define MAX_LIMIT_BIT_1 1 // Y Limit Max - Pin D20
+  #define MAX_LIMIT_BIT_2 4 // Z Limit Max - Pin D58
   #if N_AXIS > 3
     #define MAX_LIMIT_BIT_3 1 // Axis number 4 : RAMPS AUX2 pin D40
   #endif
@@ -203,7 +203,7 @@
   // The RAMPS_HW_LIMIT is implemented inside the stepper driver interrupt. Depending of your
   // hardware, this can affect the max speed possibility of movments
   // Disabled by default for performance optimization, uncomment to enable.
-  //#define ENABLE_RAMPS_HW_LIMITS
+  #define ENABLE_RAMPS_HW_LIMITS
 
   // Define spindle enable and spindle direction output pins.
   #define SPINDLE_ENABLE_DDR      DDRG
