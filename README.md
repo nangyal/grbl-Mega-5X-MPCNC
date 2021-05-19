@@ -26,6 +26,9 @@ Y2 limit min: D15 (originaly y limit max)
 
 Probe : A15
 
-You can find pinouts etc. in doc\MKS-GEN L V1.0
+You can find pinouts etc. in doc/Ramps1.4 [doc/Ramps1.4](https://github.com/nangyal/grbl-Mega-5X-MPCNC/tree/edge/doc/Ramps1.4)
 
+It may help
 https://github.com/fra589/grbl-Mega-5X/wiki/Limit-switches-and-homing
+
+https://github.com/fra589/grbl-Mega-5X/wiki/Pinout-mapping-in-cpu_map.h
