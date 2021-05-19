@@ -27,11 +27,11 @@ so in my case
 - Y2: E1
    | Axis number | Default axis name | Step pin | Direction pin | Disable pin |
    | :--- | :---: | :---: | :---: | :---: |
-   | axis_1 | X1 | A0 | A1 | D38 |
-   | axis_2 | Y1 | A6 | A7 | A2 |
-   | axis_3 | Z | D46 | D48 | A8 |
-   | axis_4 | X2 | D26 | D28 | D24 |
-   | axis_5 | Y2 | D36 | D34 | D30 |
+   | axis_1 (X1) | X | A0 | A1 | D38 |
+   | axis_2 (Y1) | Y | A6 | A7 | A2 |
+   | axis_3 (Z) | Z | D46 | D48 | A8 |
+   | axis_4 (X2) | X | D26 | D28 | D24 |
+   | axis_5 (Y2) | Y | D36 | D34 | D30 |
    | axis_6 (4th)| A  | D49 | D51 | D53 |
 - Spindle enable is on D4
 - Spindle direction is on D5
@@ -52,7 +52,7 @@ so in my case
 
 You can find pinouts etc. in [doc/Ramps1.4](https://github.com/nangyal/grbl-Mega-5X-MPCNC/tree/edge/doc/Ramps1.4)
 
-It may help\
+It may help:\
 https://github.com/fra589/grbl-Mega-5X/wiki/Limit-switches-and-homing
 
 https://github.com/fra589/grbl-Mega-5X/wiki/Pinout-mapping-in-cpu_map.h
